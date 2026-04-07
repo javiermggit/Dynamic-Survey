@@ -1,0 +1,28 @@
+<section class="survey-card">
+  <div class="page-header page-header--compact">
+    <div>
+      <p class="eyebrow">Sesion activa</p>
+      <h3>{{ session.surveyName }}</h3>
+    </div>
+  </div>
+  <p>
+    Seccion actual:
+    <strong>{{ isCompleted ? 'Encuesta completada' : (session.currentSectionTitle || 'Sin seccion activa') }}</strong>
+  </p>
+  <p>
+    Progreso:
+    <ng-container *ngIf="isCompleted; else activeProgress">
+      {{ answeredQuestions }} respondidas de {{ totalQuestions }} (100% completada)
+    </ng-container>
+    <ng-template #activeProgress>
+      {{ answeredQuestions }}/{{ totalQuestions }} ({{ progressPercentage }}%)
+    </ng-template>
+  </p>
+  <p class="muted" *ngIf="isCompleted && skippedQuestions > 0">
+    {{ skippedQuestions }} preguntas fueron omitidas por el flujo configurado.
+  </p>
+
+  <div class="progress-bar">
+    <div [style.width.%]="progressPercentage"></div>
+  </div>
+</section>

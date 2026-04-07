@@ -1,0 +1,16 @@
+<div class="option-list">
+  <label class="option-item" *ngFor="let rating of ratings">
+    <input
+      type="radio"
+      [name]="'rating-' + question.id"
+      [value]="rating"
+      [(ngModel)]="value" />
+    <span>{{ rating }}</span>
+  </label>
+</div>
+
+<div class="btn-row">
+  <button class="btn-primary" type="button" (click)="submit()" [disabled]="saving">
+    {{ saving ? 'Guardando...' : 'Siguiente' }}
+  </button>
+</div>

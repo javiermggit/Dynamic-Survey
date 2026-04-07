@@ -1,0 +1,69 @@
+<article class="question-card" *ngIf="question; else noQuestion">
+  <p class="eyebrow">{{ question.code }}</p>
+  <h2>{{ question.text }}</h2>
+  <p class="muted" *ngIf="question.helpText">{{ question.helpText }}</p>
+
+  <ng-container [ngSwitch]="question.type">
+    <app-text-question
+      *ngSwitchCase="'Text'"
+      [question]="question"
+      [saving]="saving"
+      (submitAnswer)="submitAnswer.emit($event)">
+    </app-text-question>
+
+    <app-textarea-question
+      *ngSwitchCase="'Textarea'"
+      [question]="question"
+      [saving]="saving"
+      (submitAnswer)="submitAnswer.emit($event)">
+    </app-textarea-question>
+
+    <app-single-choice-question
+      *ngSwitchCase="'SingleChoice'"
+      [question]="question"
+      [saving]="saving"
+      (submitAnswer)="submitAnswer.emit($event)">
+    </app-single-choice-question>
+
+    <app-multiple-choice-question
+      *ngSwitchCase="'MultipleChoice'"
+      [question]="question"
+      [saving]="saving"
+      (submitAnswer)="submitAnswer.emit($event)">
+    </app-multiple-choice-question>
+
+    <app-boolean-question
+      *ngSwitchCase="'Boolean'"
+      [question]="question"
+      [saving]="saving"
+      (submitAnswer)="submitAnswer.emit($event)">
+    </app-boolean-question>
+
+    <app-number-question
+      *ngSwitchCase="'Number'"
+      [question]="question"
+      [saving]="saving"
+      (submitAnswer)="submitAnswer.emit($event)">
+    </app-number-question>
+
+    <app-date-question
+      *ngSwitchCase="'Date'"
+      [question]="question"
+      [saving]="saving"
+      (submitAnswer)="submitAnswer.emit($event)">
+    </app-date-question>
+
+    <app-rating-question
+      *ngSwitchCase="'Rating'"
+      [question]="question"
+      [saving]="saving"
+      (submitAnswer)="submitAnswer.emit($event)">
+    </app-rating-question>
+  </ng-container>
+</article>
+
+<ng-template #noQuestion>
+  <article class="question-card">
+    <p class="muted">No hay una pregunta activa para mostrar en este momento.</p>
+  </article>
+</ng-template>

@@ -1,0 +1,45 @@
+<section class="page-stack">
+  <div class="survey-card" *ngIf="loading">
+    <p>Cargando encuesta...</p>
+  </div>
+
+  <div class="survey-card" *ngIf="errorMessage">
+    <p class="error-text">{{ errorMessage }}</p>
+  </div>
+
+  <ng-container *ngIf="!loading && !survey">
+    <div class="page-header page-header--compact">
+      <div>
+        <p class="eyebrow">Encuestas disponibles</p>
+        <h1>Encuestas</h1>
+      </div>
+    </div>
+
+    <div class="page-stack" *ngIf="surveys.length">
+      <article class="list-row" *ngFor="let availableSurvey of surveys">
+        <div class="list-row__main">
+          <span class="status-pill">{{ getStatusLabel(availableSurvey.status) }}</span>
+          <h3>{{ availableSurvey.title }}</h3>
+          <p class="muted">{{ availableSurvey.description || 'Sin descripcion.' }}</p>
+        </div>
+
+        <div class="list-row__actions">
+          <button class="btn-primary" type="button" (click)="startSurveyFromList(availableSurvey.id)">
+            Abrir
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <article class="survey-card" *ngIf="!surveys.length && !errorMessage">
+      <p class="muted">Todavia no hay encuestas listas para iniciar.</p>
+    </article>
+  </ng-container>
+
+  <app-survey-start
+    *ngIf="!loading && survey"
+    [survey]="survey"
+    [starting]="starting"
+    (start)="startSurvey()">
+  </app-survey-start>
+</section>

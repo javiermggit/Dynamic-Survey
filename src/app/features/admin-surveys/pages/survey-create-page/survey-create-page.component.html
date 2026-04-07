@@ -1,0 +1,18 @@
+<section class="page-stack">
+  <div class="page-header page-header--compact">
+    <div>
+      <p class="eyebrow">Nueva encuesta</p>
+      <h1>Crear encuesta</h1>
+    </div>
+  </div>
+
+  <p class="helper-note" *ngIf="!usingMocks">
+    Esta pantalla crea la encuesta y luego te lleva al editor.
+  </p>
+
+  <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <article class="admin-card form-shell">
+    <app-survey-form (save)="onSave($event)"></app-survey-form>
+  </article>
+</section>

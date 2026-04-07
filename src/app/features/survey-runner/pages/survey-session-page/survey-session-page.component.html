@@ -1,0 +1,31 @@
+<section class="page-stack">
+  <div class="survey-card" *ngIf="loading">
+    <p>Cargando sesion...</p>
+  </div>
+
+  <div class="survey-card" *ngIf="errorMessage">
+    <p class="error-text">{{ errorMessage }}</p>
+  </div>
+
+  <ng-container *ngIf="!loading && state.session as session">
+    <app-survey-progress
+      [survey]="state.survey!"
+      [session]="session">
+    </app-survey-progress>
+
+    <app-survey-complete *ngIf="session.status === 'Completed'"></app-survey-complete>
+
+    <app-survey-question-host
+      *ngIf="session.status !== 'Completed' && hasConfiguredQuestions"
+      [question]="state.getCurrentQuestion()"
+      [saving]="saving"
+      (submitAnswer)="onSubmitAnswer($event)">
+    </app-survey-question-host>
+
+    <article class="question-card" *ngIf="session.status !== 'Completed' && !hasConfiguredQuestions">
+      <p class="muted">
+        Esta encuesta no tiene preguntas configuradas todavia. Agregalas desde administracion antes de iniciar el recorrido.
+      </p>
+    </article>
+  </ng-container>
+</section>

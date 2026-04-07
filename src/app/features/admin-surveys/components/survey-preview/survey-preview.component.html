@@ -1,0 +1,17 @@
+<article class="admin-card">
+  <p class="eyebrow">Resumen</p>
+  <h3>Vista previa de estructura</h3>
+  <ng-container *ngIf="survey; else emptyPreview">
+    <p class="muted">{{ survey.sections.length }} secciones organizadas para esta encuesta.</p>
+    <div class="rule-list">
+      <article class="rule-card" *ngFor="let section of survey.sections">
+        <strong>{{ section.title }}</strong>
+        <span>{{ section.questions.length }} preguntas</span>
+      </article>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyPreview>
+    <p class="muted">Vista previa del flujo de encuesta en construccion.</p>
+  </ng-template>
+</article>

@@ -1,0 +1,17 @@
+<form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label for="date-answer">Fecha</label>
+    <input id="date-answer" type="date" formControlName="answerValue" />
+    <span
+      class="error-text"
+      *ngIf="form.controls.answerValue.touched && form.controls.answerValue.invalid">
+      Selecciona una fecha.
+    </span>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" type="submit" [disabled]="saving">
+      {{ saving ? 'Guardando...' : 'Siguiente' }}
+    </button>
+  </div>
+</form>

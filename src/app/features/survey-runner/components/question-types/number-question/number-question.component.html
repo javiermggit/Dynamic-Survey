@@ -1,0 +1,17 @@
+<form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label for="number-answer">Ingresa un valor numerico</label>
+    <input id="number-answer" type="number" formControlName="answerValue" placeholder="Escribe un numero" />
+    <span
+      class="error-text"
+      *ngIf="form.controls.answerValue.touched && form.controls.answerValue.invalid">
+      Ingresa un numero valido.
+    </span>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" type="submit" [disabled]="saving">
+      {{ saving ? 'Guardando...' : 'Siguiente' }}
+    </button>
+  </div>
+</form>

@@ -1,0 +1,24 @@
+<article class="survey-card">
+  <div class="page-header page-header--compact">
+    <div>
+      <p class="eyebrow">Encuesta</p>
+      <h1>{{ survey.title }}</h1>
+      <p class="muted">{{ survey.description || 'Sin descripcion disponible.' }}</p>
+    </div>
+
+    <div class="inline-metrics">
+      <span>{{ survey.sections.length }} secciones</span>
+      <span>{{ totalQuestions }} preguntas</span>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" (click)="onStart()" [disabled]="starting || !canStart">
+      {{ starting ? 'Preparando...' : 'Comenzar' }}
+    </button>
+  </div>
+
+  <p class="muted" *ngIf="!canStart">
+    Esta encuesta todavia no tiene preguntas configuradas, por eso aun no puede iniciarse.
+  </p>
+</article>

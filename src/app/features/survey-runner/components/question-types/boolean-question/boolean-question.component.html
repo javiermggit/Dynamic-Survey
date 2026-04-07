@@ -1,0 +1,16 @@
+<div class="option-list">
+  <label class="option-item">
+    <input type="radio" [name]="'boolean-' + question.id" value="true" [(ngModel)]="value" />
+    <span>Si</span>
+  </label>
+  <label class="option-item">
+    <input type="radio" [name]="'boolean-' + question.id" value="false" [(ngModel)]="value" />
+    <span>No</span>
+  </label>
+</div>
+
+<div class="btn-row">
+  <button class="btn-primary" type="button" (click)="submit()" [disabled]="saving">
+    {{ saving ? 'Guardando...' : 'Siguiente' }}
+  </button>
+</div>

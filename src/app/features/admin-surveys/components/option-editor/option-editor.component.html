@@ -1,0 +1,40 @@
+<section class="builder-card page-stack" *ngIf="canHaveOptions">
+  <div class="section-workbench__header">
+    <h4>Opciones</h4>
+    <span class="status-pill">{{ options.length }}</span>
+  </div>
+
+  <div class="option-pill-list" *ngIf="options.length; else noOptions">
+    <article class="option-pill" *ngFor="let option of options">
+      <strong>{{ option.label }}</strong>
+      <span>{{ option.value }}</span>
+    </article>
+  </div>
+
+  <ng-template #noOptions>
+    <p class="muted">Todavia no hay opciones para esta pregunta.</p>
+  </ng-template>
+
+  <form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="builder-grid builder-grid--three">
+      <div class="field">
+        <label for="option-label">Texto</label>
+        <input id="option-label" type="text" formControlName="label" placeholder="Ej. Si" />
+      </div>
+
+      <div class="field">
+        <label for="option-value">Valor</label>
+        <input id="option-value" type="text" formControlName="value" placeholder="Ej. SI" />
+      </div>
+
+      <div class="field">
+        <label for="option-order">Orden</label>
+        <input id="option-order" type="number" formControlName="order" />
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" type="submit">Agregar opcion</button>
+    </div>
+  </form>
+</section>

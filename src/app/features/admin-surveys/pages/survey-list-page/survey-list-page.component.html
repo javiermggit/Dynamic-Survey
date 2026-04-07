@@ -1,0 +1,46 @@
+<section class="page-stack">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Encuestas</p>
+      <h1>Encuestas</h1>
+    </div>
+
+    <div class="btn-row">
+      <a class="btn-primary" routerLink="/admin/create">Nueva encuesta</a>
+    </div>
+  </div>
+
+  <div class="admin-card" *ngIf="!supportsSurveyList">
+    <p class="muted">
+      El backend actual no expone `GET /api/admin/surveys`, por eso esta vista no puede listar encuestas todavia.
+    </p>
+  </div>
+
+  <div class="admin-card" *ngIf="loading">
+    <p>Cargando encuestas...</p>
+  </div>
+
+  <div class="admin-card" *ngIf="errorMessage">
+    <p class="error-text">{{ errorMessage }}</p>
+  </div>
+
+  <div class="page-stack" *ngIf="!loading && surveys.length">
+    <article class="list-row" *ngFor="let survey of surveys">
+      <div class="list-row__main">
+        <span class="status-pill">{{ getStatusLabel(survey.status) }}</span>
+        <h3>{{ survey.title }}</h3>
+        <p class="muted">{{ survey.description || 'Sin descripcion.' }}</p>
+      </div>
+
+      <div class="list-row__actions">
+        <a class="btn-secondary" [routerLink]="['/admin', survey.id, 'edit']">Editar</a>
+        <a class="btn-link" [routerLink]="['/admin', survey.id, 'designer']">Editar flujo</a>
+        <a class="btn-link" [routerLink]="['/runner', survey.id, 'start']">Probar</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="admin-card" *ngIf="!loading && !surveys.length && !errorMessage">
+    <p class="muted">Todavia no hay encuestas registradas.</p>
+  </div>
+</section>

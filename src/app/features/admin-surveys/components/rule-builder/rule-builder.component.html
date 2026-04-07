@@ -1,0 +1,76 @@
+<section class="builder-card page-stack">
+  <div class="section-workbench__header">
+    <h4>Reglas</h4>
+    <span class="status-pill">{{ rules.length }}</span>
+  </div>
+
+  <div class="rule-list" *ngIf="rules.length; else noRules">
+    <article class="rule-card" *ngFor="let rule of rules">
+      <strong>{{ getActionLabel(rule.actionType) }}</strong>
+      <span>Si la respuesta {{ getOperatorLabel(rule.operator) }} {{ rule.expectedValue || rule.expectedOptionId || 'este valor' }}</span>
+    </article>
+  </div>
+
+  <ng-template #noRules>
+    <p class="muted">Todavia no hay reglas para esta pregunta.</p>
+  </ng-template>
+
+  <form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="builder-grid builder-grid--three">
+      <div class="field">
+        <label for="rule-operator">Si</label>
+        <select id="rule-operator" formControlName="operator">
+          <option *ngFor="let operator of operators" [value]="operator">{{ getOperatorLabel(operator) }}</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="rule-value">Valor</label>
+        <input id="rule-value" type="text" formControlName="expectedValue" placeholder="Ej. SI" />
+      </div>
+
+      <div class="field" *ngIf="question.options?.length">
+        <label for="rule-option">Opcion</label>
+        <select id="rule-option" formControlName="expectedOptionId">
+          <option [ngValue]="null">Seleccionar</option>
+          <option *ngFor="let option of question.options" [ngValue]="option.id">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="builder-grid builder-grid--three">
+      <div class="field">
+        <label for="rule-action">Entonces</label>
+        <select id="rule-action" formControlName="actionType">
+          <option *ngFor="let action of actionTypes" [value]="action">{{ getActionLabel(action) }}</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="rule-target-question">Pregunta destino</label>
+        <select id="rule-target-question" formControlName="targetQuestionId">
+          <option [ngValue]="null">Seleccionar</option>
+          <option *ngFor="let q of allQuestions" [ngValue]="q.id">
+            {{ q.code }} - {{ q.text }}
+          </option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="rule-target-section">Seccion destino</label>
+        <select id="rule-target-section" formControlName="targetSectionId">
+          <option [ngValue]="null">Seleccionar</option>
+          <option *ngFor="let section of survey.sections" [ngValue]="section.id">
+            {{ section.title }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" type="submit">Agregar regla</button>
+    </div>
+  </form>
+</section>

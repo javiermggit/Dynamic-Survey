@@ -1,0 +1,22 @@
+<form class="builder-card form-grid" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="section-workbench__header">
+    <h3>Nueva seccion</h3>
+    <span class="status-pill">Paso 1</span>
+  </div>
+
+  <div class="builder-grid builder-grid--two">
+    <div class="field">
+      <label for="section-title">Titulo</label>
+      <input id="section-title" type="text" formControlName="title" placeholder="Ej. Antecedentes" />
+    </div>
+
+    <div class="field">
+      <label for="section-order">Orden</label>
+      <input id="section-order" type="number" formControlName="order" />
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" type="submit">Agregar seccion</button>
+  </div>
+</form>

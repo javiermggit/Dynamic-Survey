@@ -1,0 +1,27 @@
+<section class="page-stack">
+  <div class="page-header page-header--compact">
+    <div>
+      <p class="eyebrow">Edicion</p>
+      <h1>Editar encuesta</h1>
+    </div>
+
+    <div class="btn-row" *ngIf="surveyId && !loading">
+      <a class="btn-secondary" [routerLink]="['/admin', surveyId, 'designer']">Editar flujo</a>
+      <a class="btn-link" [routerLink]="['/runner', surveyId, 'start']">Probar</a>
+    </div>
+  </div>
+
+  <div class="admin-card" *ngIf="loading">
+    <p>Cargando encuesta...</p>
+  </div>
+
+  <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <article class="admin-card form-shell" *ngIf="!loading && survey">
+    <app-survey-form
+      [initialData]="survey"
+      [saving]="saving"
+      (save)="onSave($event)">
+    </app-survey-form>
+  </article>
+</section>

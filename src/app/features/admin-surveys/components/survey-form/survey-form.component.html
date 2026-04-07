@@ -1,0 +1,30 @@
+<form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="builder-grid builder-grid--two">
+    <div class="field">
+      <label for="survey-title">Nombre</label>
+      <input id="survey-title" type="text" formControlName="title" placeholder="Ej. Bienestar laboral" />
+      <span class="error-text" *ngIf="form.get('title')?.touched && form.get('title')?.invalid">
+        El titulo es obligatorio.
+      </span>
+    </div>
+
+    <label class="check-card inline-toggle">
+      <input type="checkbox" formControlName="isActive" />
+      <span>
+        <strong>Publicar ahora</strong>
+        <small>La encuesta quedara disponible al guardar.</small>
+      </span>
+    </label>
+  </div>
+
+  <div class="field">
+    <label for="survey-description">Descripcion</label>
+    <textarea id="survey-description" formControlName="description" placeholder="Describe brevemente el objetivo de la encuesta."></textarea>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" type="submit" [disabled]="saving">
+      {{ saving ? 'Guardando...' : 'Guardar' }}
+    </button>
+  </div>
+</form>

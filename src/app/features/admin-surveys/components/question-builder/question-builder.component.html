@@ -1,0 +1,64 @@
+<form class="builder-card form-grid" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="section-workbench__header">
+    <h4>Nueva pregunta</h4>
+    <span class="status-pill">Paso 2</span>
+  </div>
+
+  <div class="builder-grid builder-grid--two">
+    <div class="field">
+      <label for="question-code">Codigo</label>
+      <input id="question-code" type="text" formControlName="code" placeholder="Ej. P1" />
+    </div>
+
+    <div class="field">
+      <label for="question-order">Orden</label>
+      <input id="question-order" type="number" formControlName="order" />
+    </div>
+  </div>
+
+  <div class="field">
+      <label for="question-text">Pregunta</label>
+      <input id="question-text" type="text" formControlName="text" placeholder="Escribe la pregunta" />
+  </div>
+
+  <div class="builder-grid builder-grid--two">
+    <div class="field">
+      <label for="question-type">Tipo</label>
+      <select id="question-type" formControlName="type">
+        <option *ngFor="let type of questionTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+
+    <label class="check-card">
+      <input type="checkbox" formControlName="isRequired" />
+      <span>
+        <strong>Obligatoria</strong>
+        <small>Requiere respuesta</small>
+      </span>
+    </label>
+  </div>
+
+  <div class="builder-grid builder-grid--two">
+    <div class="field">
+      <label for="question-placeholder">Ayuda en campo</label>
+      <input
+        id="question-placeholder"
+        type="text"
+        formControlName="placeholder"
+        placeholder="Texto opcional" />
+    </div>
+
+    <div class="field">
+      <label for="question-help">Ayuda extra</label>
+      <input
+        id="question-help"
+        type="text"
+        formControlName="helpText"
+        placeholder="Texto opcional" />
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" type="submit">Agregar pregunta</button>
+  </div>
+</form>

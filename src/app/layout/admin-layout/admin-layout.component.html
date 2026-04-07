@@ -1,0 +1,21 @@
+<div class="layout-shell admin-shell">
+  <header class="layout-header">
+    <div>
+      <strong>Dynamic Survey</strong>
+      <span>Panel de administracion de encuestas</span>
+    </div>
+
+    <nav>
+      <a
+        routerLink="/admin"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Listado</a>
+      <a routerLink="/admin/create" routerLinkActive="active">Nueva encuesta</a>
+      <a routerLink="/runner" routerLinkActive="active">Vista publica</a>
+    </nav>
+  </header>
+
+  <main class="layout-main">
+    <router-outlet></router-outlet>
+  </main>
+</div>
