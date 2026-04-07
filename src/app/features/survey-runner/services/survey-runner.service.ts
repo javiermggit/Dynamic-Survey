@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { SurveyDto } from '../models/survey.models';
+import { SurveyDto, SurveySummaryDto } from '../models/survey.models';
 import {
   CreateSessionRequest,
   SubmitAnswerRequest,
+  SurveySessionProgressDto,
   SurveySessionDto
 } from '../models/session.models';
 
@@ -16,6 +17,12 @@ export class SurveyRunnerService {
   private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
+
+  getSurveys(): Observable<SurveySummaryDto[]> {
+    return this.http
+      .get<unknown[]>(`${this.apiUrl}/surveys`)
+      .pipe(map(response => response.map(item => this.normalizeSurveySummary(item))));
+  }
 
   getSurvey(surveyId: number): Observable<SurveyDto> {
     return this.http
@@ -32,6 +39,18 @@ export class SurveyRunnerService {
   getSession(sessionId: number): Observable<SurveySessionDto> {
     return this.http
       .get<unknown>(`${this.apiUrl}/sessions/${sessionId}`)
+      .pipe(map(response => this.normalizeSession(response)));
+  }
+
+  getSessionProgress(sessionId: number): Observable<SurveySessionProgressDto> {
+    return this.http
+      .get<unknown>(`${this.apiUrl}/sessions/${sessionId}/progress`)
+      .pipe(map(response => this.normalizeSessionProgress(response)));
+  }
+
+  completeSession(sessionId: number): Observable<SurveySessionDto> {
+    return this.http
+      .post<unknown>(`${this.apiUrl}/sessions/${sessionId}/complete`, {})
       .pipe(map(response => this.normalizeSession(response)));
   }
 
@@ -114,6 +133,17 @@ export class SurveyRunnerService {
     };
   }
 
+  private normalizeSurveySummary(response: unknown): SurveySummaryDto {
+    const survey = (response ?? {}) as Record<string, unknown>;
+
+    return {
+      id: this.readNumber(survey, ['id']),
+      title: this.readString(survey, ['title', 'name']),
+      description: this.readOptionalString(survey, ['description']),
+      status: this.readSurveyStatus(survey)
+    };
+  }
+
   private normalizeSession(response: unknown): SurveySessionDto {
     const session = (response ?? {}) as Record<string, unknown>;
 
@@ -141,6 +171,26 @@ export class SurveyRunnerService {
             )
           : []
       })) : []
+    };
+  }
+
+  private normalizeSessionProgress(response: unknown): SurveySessionProgressDto {
+    const progress = (response ?? {}) as Record<string, unknown>;
+    const answeredQuestions = this.readNumber(progress, ['answeredQuestions', 'answered', 'completedQuestions']);
+    const totalQuestions = this.readNumber(progress, ['totalQuestions', 'total']);
+    const rawPercentage = this.readOptionalNumber(progress, ['progressPercentage', 'percentage', 'completionPercentage']);
+    const skippedQuestions = this.readOptionalNumber(progress, ['skippedQuestions', 'skipped']);
+
+    return {
+      answeredQuestions,
+      totalQuestions,
+      progressPercentage:
+        rawPercentage != null
+          ? Number(rawPercentage)
+          : totalQuestions > 0
+            ? Math.round((answeredQuestions / totalQuestions) * 100)
+            : 0,
+      skippedQuestions
     };
   }
 
@@ -179,6 +229,10 @@ export class SurveyRunnerService {
 
     if (raw === 'Published' || raw === 'Archived') {
       return raw;
+    }
+
+    if (source['isActive'] === true) {
+      return 'Published';
     }
 
     return 'Draft';

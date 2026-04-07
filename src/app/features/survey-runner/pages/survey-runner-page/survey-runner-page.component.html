@@ -8,24 +8,29 @@
   </div>
 
   <ng-container *ngIf="!loading && !survey">
-    <div class="page-header page-header--compact">
-      <div>
+    <section class="screen-header runner-list-header">
+      <div class="screen-header__content">
         <p class="eyebrow">Encuestas disponibles</p>
-        <h1>Encuestas</h1>
+        <h1>Explora y comienza</h1>
+        <p class="muted">
+          Elige la experiencia que quieres probar. Cada tarjeta te lleva directo al inicio de la encuesta correcta.
+        </p>
       </div>
-    </div>
+    </section>
 
     <div class="page-stack" *ngIf="surveys.length">
-      <article class="list-row" *ngFor="let availableSurvey of surveys">
-        <div class="list-row__main">
-          <span class="status-pill">{{ getStatusLabel(availableSurvey.status) }}</span>
-          <h3>{{ availableSurvey.title }}</h3>
+      <article class="list-row runner-list-row" *ngFor="let availableSurvey of surveys">
+        <div class="runner-list-row__main">
+          <div class="runner-list-row__title">
+            <h3>{{ availableSurvey.title }}</h3>
+            <span class="runner-list-row__badge">{{ getStatusLabel(availableSurvey.status) }}</span>
+          </div>
           <p class="muted">{{ availableSurvey.description || 'Sin descripcion.' }}</p>
         </div>
 
-        <div class="list-row__actions">
+        <div class="runner-list-row__actions">
           <button class="btn-primary" type="button" (click)="startSurveyFromList(availableSurvey.id)">
-            Abrir
+            <span>Abrir encuesta</span>
           </button>
         </div>
       </article>

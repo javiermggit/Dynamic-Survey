@@ -6,13 +6,16 @@
   <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
 
   <div class="page-stack" *ngIf="!loading && survey">
-    <section class="page-header page-header--compact">
-      <div>
-        <p class="eyebrow">Editor</p>
+    <section class="screen-header designer-header">
+      <div class="screen-header__content">
+        <p class="eyebrow">Editor de flujo</p>
         <h1>{{ survey.title }}</h1>
+        <p class="muted designer-header__summary">
+          Organiza secciones, preguntas y reglas sin perder el contexto.
+        </p>
       </div>
 
-      <div class="inline-metrics">
+      <div class="screen-header__actions inline-metrics">
         <span>{{ survey.sections.length }} secciones</span>
         <span>{{ totalQuestions }} preguntas</span>
       </div>
@@ -20,24 +23,31 @@
 
     <div class="designer-layout">
       <aside class="designer-sidebar">
+        <article class="designer-sidebar__panel">
+          <div class="designer-sidebar__heading">
+            <h3>Secciones</h3>
+            <p class="muted">Elige una seccion y el panel central cambia contigo.</p>
+          </div>
+
+          <article class="designer-nav" *ngIf="survey.sections.length; else emptyState">
+            <button
+              type="button"
+              class="designer-nav__item"
+              *ngFor="let section of survey.sections"
+              [class.active]="section.id === activeSection?.id"
+              (click)="selectSection(section.id)">
+              <div>
+                <strong>{{ section.title }}</strong>
+                <span>{{ section.questions.length }} preguntas</span>
+              </div>
+            </button>
+          </article>
+        </article>
+
         <app-section-builder
           [surveyId]="survey.id"
           (created)="onSectionCreated()">
         </app-section-builder>
-
-        <article class="designer-nav" *ngIf="survey.sections.length; else emptyState">
-          <button
-            type="button"
-            class="designer-nav__item"
-            *ngFor="let section of survey.sections"
-            [class.active]="section.id === activeSection?.id"
-            (click)="selectSection(section.id)">
-            <div>
-              <strong>{{ section.title }}</strong>
-              <span>{{ section.questions.length }} preguntas</span>
-            </div>
-          </button>
-        </article>
 
         <ng-template #emptyState>
           <article class="designer-empty">
@@ -63,6 +73,11 @@
         </article>
 
         <article class="designer-nav designer-nav--questions" *ngIf="section.questions.length; else noQuestions">
+          <div class="designer-sidebar__heading">
+            <h3>Preguntas</h3>
+            <p class="muted">Escoge una pregunta para editar respuestas y reglas sin abrir todo a la vez.</p>
+          </div>
+
           <button
             type="button"
             class="designer-nav__item"

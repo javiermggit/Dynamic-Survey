@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.page-stack {
+  width: min(940px, 100%);
+  margin-inline: auto;
+}
+
+.page-header {
+  padding: 0.15rem 0.1rem;
+}
+
+.page-header h1 {
+  font-size: clamp(1.34rem, 1.62vw, 1.7rem);
+}
+
+.page-header .btn-row {
+  gap: 0.45rem;
+}
+
+.form-shell {
+  padding: 0.78rem 0.84rem;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+}

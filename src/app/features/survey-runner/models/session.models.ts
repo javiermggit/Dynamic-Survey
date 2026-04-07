@@ -24,6 +24,13 @@ export interface SurveySessionDto {
   answers: SessionAnswerDto[];
 }
 
+export interface SurveySessionProgressDto {
+  answeredQuestions: number;
+  totalQuestions: number;
+  progressPercentage: number;
+  skippedQuestions?: number;
+}
+
 export interface SessionAnswerDto {
   answerId: number;
   questionId: number;

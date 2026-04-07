@@ -1,14 +1,17 @@
 <div class="layout-shell">
   <header class="layout-header">
-    <div>
-      <strong>Dynamic Survey</strong>
-      <span>Encuestas claras y faciles de responder</span>
-    </div>
+    <div class="layout-header__inner">
+      <div class="layout-brand">
+        <span class="layout-brand__mark" aria-hidden="true"></span>
+        <strong>Dynamic Survey</strong>
+        <span>Encuestas claras y faciles de responder</span>
+      </div>
 
-    <nav>
-      <a routerLink="/runner" routerLinkActive="active">Encuestas</a>
-      <a routerLink="/admin" routerLinkActive="active">Panel</a>
-    </nav>
+      <nav class="layout-nav">
+        <a routerLink="/runner" routerLinkActive="active">Encuestas</a>
+        <a routerLink="/admin" routerLinkActive="active">Admin</a>
+      </nav>
+    </div>
   </header>
 
   <main class="layout-main">

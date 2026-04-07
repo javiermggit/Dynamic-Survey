@@ -1,14 +1,14 @@
-<section class="page-stack">
-  <div class="page-header">
-    <div>
-      <p class="eyebrow">Encuestas</p>
-      <h1>Encuestas</h1>
+<section class="page-stack admin-list-page">
+  <section class="screen-header admin-list-header">
+    <div class="screen-header__content">
+      <p class="eyebrow">Administracion</p>
+      <h1>Panel de encuestas</h1>
+      <p class="muted">
+        Gestiona tus formularios desde un tablero mas claro: entra a editar, abrir flujo o probar sin perderte.
+      </p>
     </div>
 
-    <div class="btn-row">
-      <a class="btn-primary" routerLink="/admin/create">Nueva encuesta</a>
-    </div>
-  </div>
+  </section>
 
   <div class="admin-card" *ngIf="!supportsSurveyList">
     <p class="muted">
@@ -25,17 +25,21 @@
   </div>
 
   <div class="page-stack" *ngIf="!loading && surveys.length">
-    <article class="list-row" *ngFor="let survey of surveys">
-      <div class="list-row__main">
-        <span class="status-pill">{{ getStatusLabel(survey.status) }}</span>
-        <h3>{{ survey.title }}</h3>
+    <article class="list-row admin-list-row" *ngFor="let survey of surveys">
+      <div class="admin-list-row__main">
+        <div class="admin-list-row__title">
+          <h3>{{ survey.title }}</h3>
+          <span class="status-pill">{{ getStatusLabel(survey.status) }}</span>
+        </div>
         <p class="muted">{{ survey.description || 'Sin descripcion.' }}</p>
       </div>
 
-      <div class="list-row__actions">
-        <a class="btn-secondary" [routerLink]="['/admin', survey.id, 'edit']">Editar</a>
-        <a class="btn-link" [routerLink]="['/admin', survey.id, 'designer']">Editar flujo</a>
-        <a class="btn-link" [routerLink]="['/runner', survey.id, 'start']">Probar</a>
+      <div class="admin-list-row__actions">
+        <div class="admin-action-cluster">
+          <a class="btn-primary" [routerLink]="['/admin', survey.id, 'designer']">Dise&#241;ar flujo</a>
+          <a class="btn-secondary" [routerLink]="['/admin', survey.id, 'edit']">Configurar</a>
+          <a class="btn-link" [routerLink]="['/runner', survey.id, 'start']">Vista previa</a>
+        </div>
       </div>
     </article>
   </div>

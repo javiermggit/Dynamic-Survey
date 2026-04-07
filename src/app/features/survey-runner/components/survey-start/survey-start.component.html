@@ -1,24 +1,36 @@
-<article class="survey-card">
-  <div class="page-header page-header--compact">
-    <div>
-      <p class="eyebrow">Encuesta</p>
-      <h1>{{ survey.title }}</h1>
-      <p class="muted">{{ survey.description || 'Sin descripcion disponible.' }}</p>
-    </div>
+<article class="survey-card runner-start">
+  <div class="runner-start__copy">
+    <p class="eyebrow">Encuesta</p>
+    <h1>{{ survey.title }}</h1>
+    <p class="muted">{{ survey.description || 'Sin descripcion disponible.' }}</p>
 
-    <div class="inline-metrics">
-      <span>{{ survey.sections.length }} secciones</span>
-      <span>{{ totalQuestions }} preguntas</span>
+    <div class="runner-start__summary">
+      <div class="runner-start__metric">
+        <span class="runner-start__metric-label">Secciones</span>
+        <strong>{{ survey.sections.length }}</strong>
+      </div>
+      <div class="runner-start__metric">
+        <span class="runner-start__metric-label">Preguntas</span>
+        <strong>{{ totalQuestions }}</strong>
+      </div>
     </div>
   </div>
 
-  <div class="btn-row">
-    <button class="btn-primary" (click)="onStart()" [disabled]="starting || !canStart">
-      {{ starting ? 'Preparando...' : 'Comenzar' }}
-    </button>
-  </div>
+  <aside class="runner-start__panel">
+    <p class="runner-start__panel-title">Listo para iniciar</p>
+    <p class="muted">Entra al recorrido y responde a tu ritmo.</p>
 
-  <p class="muted" *ngIf="!canStart">
+    <div class="btn-row runner-start__actions">
+      <a class="btn-secondary" routerLink="/runner">
+        <span>Volver</span>
+      </a>
+      <button class="btn-primary" (click)="onStart()" [disabled]="starting || !canStart">
+        <span>{{ starting ? 'Preparando...' : 'Comenzar' }}</span>
+      </button>
+    </div>
+  </aside>
+
+  <p class="muted runner-start__note" *ngIf="!canStart">
     Esta encuesta todavia no tiene preguntas configuradas, por eso aun no puede iniciarse.
   </p>
 </article>

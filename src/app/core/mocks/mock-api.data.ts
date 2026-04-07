@@ -13,6 +13,7 @@ import {
 import {
   CreateSessionRequest,
   SubmitAnswerRequest,
+  SurveySessionProgressDto,
   SurveySessionDto
 } from '../../features/survey-runner/models/session.models';
 
@@ -115,6 +116,16 @@ class MockApiStore {
   getSurvey(id: number): AdminSurveyDto | undefined {
     const survey = this.surveys.find(item => item.id === id);
     return survey ? structuredClone(survey) : undefined;
+  }
+
+  getSectionQuestions(sectionId: number): AdminSurveyQuestionDto[] {
+    const section = this.findSection(sectionId);
+    return section ? structuredClone(section.questions) : [];
+  }
+
+  getQuestionOptions(questionId: number): AdminSurveyOptionDto[] {
+    const question = this.findQuestion(questionId);
+    return question ? structuredClone(question.options) : [];
   }
 
   createSurvey(payload: CreateSurveyRequest): { id: number } {
@@ -291,6 +302,50 @@ class MockApiStore {
   getSession(sessionId: number): SurveySessionDto | undefined {
     const session = this.sessions.find(item => item.id === sessionId);
     return session ? structuredClone(session) : undefined;
+  }
+
+  getSessionProgress(sessionId: number): SurveySessionProgressDto | undefined {
+    const session = this.sessions.find(item => item.id === sessionId);
+
+    if (!session) {
+      return undefined;
+    }
+
+    const survey = this.surveys.find(item => item.id === session.surveyId);
+    const totalQuestions = survey ? this.getOrderedQuestions(survey).length : 0;
+    const answeredQuestions = session.answers.length;
+
+    return {
+      answeredQuestions,
+      totalQuestions,
+      progressPercentage:
+        session.status === 'Completed'
+          ? 100
+          : totalQuestions > 0
+            ? Math.round((answeredQuestions / totalQuestions) * 100)
+            : 0,
+      skippedQuestions:
+        session.status === 'Completed'
+          ? Math.max(0, totalQuestions - answeredQuestions)
+          : 0
+    };
+  }
+
+  completeSession(sessionId: number): SurveySessionDto | undefined {
+    const session = this.sessions.find(item => item.id === sessionId);
+
+    if (!session) {
+      return undefined;
+    }
+
+    session.status = 'Completed';
+    session.currentSectionId = undefined;
+    session.currentSectionTitle = undefined;
+    session.currentQuestionId = undefined;
+    session.currentQuestionText = undefined;
+    session.completedAt = new Date().toISOString();
+
+    return structuredClone(session);
   }
 
   saveAnswer(sessionId: number, payload: SubmitAnswerRequest): SurveySessionDto | undefined {

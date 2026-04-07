@@ -1,4 +1,4 @@
-<form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+<form class="form-grid survey-form" [formGroup]="form" (ngSubmit)="submit()">
   <div class="builder-grid builder-grid--two">
     <div class="field">
       <label for="survey-title">Nombre</label>
@@ -22,7 +22,7 @@
     <textarea id="survey-description" formControlName="description" placeholder="Describe brevemente el objetivo de la encuesta."></textarea>
   </div>
 
-  <div class="btn-row">
+  <div class="btn-row survey-form__actions">
     <button class="btn-primary" type="submit" [disabled]="saving">
       {{ saving ? 'Guardando...' : 'Guardar' }}
     </button>

@@ -1,7 +1,9 @@
 <form class="builder-card form-grid" [formGroup]="form" (ngSubmit)="submit()">
   <div class="section-workbench__header">
-    <h3>Nueva seccion</h3>
-    <span class="status-pill">Paso 1</span>
+    <div>
+      <h3>Agregar seccion</h3>
+      <p class="muted">Crea un bloque nuevo en la barra lateral.</p>
+    </div>
   </div>
 
   <div class="builder-grid builder-grid--two">
@@ -17,6 +19,6 @@
   </div>
 
   <div class="btn-row">
-    <button class="btn-primary" type="submit">Agregar seccion</button>
+    <button class="btn-primary" type="submit">Crear seccion</button>
   </div>
 </form>

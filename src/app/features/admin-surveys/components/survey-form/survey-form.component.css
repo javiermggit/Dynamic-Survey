@@ -1,0 +1,36 @@
+:host {
+  display: block;
+}
+
+.survey-form {
+  gap: 0.68rem;
+}
+
+.survey-form .field {
+  gap: 0.28rem;
+}
+
+.survey-form .field input,
+.survey-form .field textarea {
+  padding: 0.56rem 0.66rem;
+}
+
+.survey-form .field textarea {
+  min-height: 86px;
+}
+
+.inline-toggle {
+  min-height: 0;
+}
+
+.inline-toggle strong {
+  font-size: 0.98rem;
+}
+
+.inline-toggle small {
+  font-size: 0.82rem;
+}
+
+.survey-form__actions {
+  justify-content: flex-start;
+}

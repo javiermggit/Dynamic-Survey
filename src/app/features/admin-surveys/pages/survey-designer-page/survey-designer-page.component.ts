@@ -54,6 +54,7 @@ export class SurveyDesignerPageComponent implements OnInit {
       next: ({ survey, rules }) => {
         this.survey = this.attachRules(survey, rules);
         this.syncSelection();
+        this.refreshSelectionData();
         this.loading = false;
       },
       error: () => {
@@ -144,12 +145,13 @@ export class SurveyDesignerPageComponent implements OnInit {
 
   selectSection(sectionId: number): void {
     this.selectedSectionId = sectionId;
-    const firstQuestion = this.activeSection?.questions[0];
-    this.selectedQuestionId = firstQuestion?.id;
+    this.selectedQuestionId = undefined;
+    this.loadSectionQuestions(sectionId);
   }
 
   selectQuestion(questionId: number): void {
     this.selectedQuestionId = questionId;
+    this.loadQuestionOptions(questionId);
   }
 
   get activeSection(): AdminSurveySectionDto | null {
@@ -229,5 +231,89 @@ export class SurveyDesignerPageComponent implements OnInit {
 
     const question = this.activeQuestion ?? section?.questions[0] ?? null;
     this.selectedQuestionId = question?.id;
+  }
+
+  private refreshSelectionData(): void {
+    if (!this.activeSection?.id) {
+      return;
+    }
+
+    this.loadSectionQuestions(this.activeSection.id, true);
+  }
+
+  private loadSectionQuestions(sectionId: number, preserveSelection = false): void {
+    this.adminSurveyService.getSectionQuestions(sectionId).pipe(
+      catchError(() => of([]))
+    ).subscribe(questions => {
+      if (!this.survey) {
+        return;
+      }
+
+      const currentSection = this.survey.sections.find(section => section.id === sectionId);
+      const existingQuestions = currentSection?.questions ?? [];
+      const existingQuestionMap = new Map(existingQuestions.map(question => [question.id, question]));
+
+      const mergedQuestions = questions.map(question => {
+        const existing = existingQuestionMap.get(question.id);
+
+        return {
+          ...existing,
+          ...question,
+          options:
+            question.options?.length
+              ? question.options
+              : (existing?.options ?? []),
+          rules: existing?.rules ?? []
+        };
+      });
+
+      this.survey = {
+        ...this.survey,
+        sections: this.survey.sections.map(section =>
+          section.id === sectionId
+            ? {
+                ...section,
+                questions: mergedQuestions.length ? mergedQuestions : section.questions
+              }
+            : section
+        )
+      };
+
+      const selectedQuestionId = preserveSelection
+        ? (mergedQuestions.find(question => question.id === this.selectedQuestionId)?.id ??
+          mergedQuestions[0]?.id)
+        : mergedQuestions[0]?.id;
+
+      this.selectedQuestionId = selectedQuestionId;
+
+      if (selectedQuestionId) {
+        this.loadQuestionOptions(selectedQuestionId);
+      }
+    });
+  }
+
+  private loadQuestionOptions(questionId: number): void {
+    this.adminSurveyService.getQuestionOptions(questionId).pipe(
+      catchError(() => of([]))
+    ).subscribe(options => {
+      if (!this.survey) {
+        return;
+      }
+
+      this.survey = {
+        ...this.survey,
+        sections: this.survey.sections.map(section => ({
+          ...section,
+          questions: section.questions.map(question =>
+            question.id === questionId
+              ? {
+                  ...question,
+                  options
+                }
+              : question
+          )
+        }))
+      };
+    });
   }
 }

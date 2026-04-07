@@ -1,15 +1,15 @@
-<div class="option-list">
-  <label class="option-item">
+<div class="runner-options">
+  <label class="runner-option">
     <input type="radio" [name]="'boolean-' + question.id" value="true" [(ngModel)]="value" />
-    <span>Si</span>
+    <span class="runner-option__label">Si</span>
   </label>
-  <label class="option-item">
+  <label class="runner-option">
     <input type="radio" [name]="'boolean-' + question.id" value="false" [(ngModel)]="value" />
-    <span>No</span>
+    <span class="runner-option__label">No</span>
   </label>
 </div>
 
-<div class="btn-row">
+<div class="btn-row runner-form__actions">
   <button class="btn-primary" type="button" (click)="submit()" [disabled]="saving">
     {{ saving ? 'Guardando...' : 'Siguiente' }}
   </button>

@@ -8,6 +8,13 @@ export type QuestionType =
   | 'Date'
   | 'Rating';
 
+export interface SurveySummaryDto {
+  id: number;
+  title: string;
+  description?: string;
+  status: 'Draft' | 'Published' | 'Archived';
+}
+
 export interface SurveyDto {
   id: number;
   title: string;

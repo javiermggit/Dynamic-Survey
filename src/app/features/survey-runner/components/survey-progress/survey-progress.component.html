@@ -1,23 +1,27 @@
-<section class="survey-card">
-  <div class="page-header page-header--compact">
-    <div>
+<section class="survey-card runner-progress">
+  <div class="runner-progress__header">
+    <div class="runner-progress__title">
       <p class="eyebrow">Sesion activa</p>
       <h3>{{ session.surveyName }}</h3>
     </div>
+
+    <div class="runner-progress__meta">
+      <div class="runner-progress__item">
+        <span>Seccion actual</span>
+        <strong>{{ isCompleted ? 'Encuesta completada' : (session.currentSectionTitle || 'Sin seccion activa') }}</strong>
+      </div>
+      <div class="runner-progress__item">
+        <span>Progreso</span>
+        <strong *ngIf="isCompleted; else activeProgress">
+          {{ answeredQuestions }} de {{ totalQuestions }} completadas
+        </strong>
+        <ng-template #activeProgress>
+          <strong>{{ answeredQuestions }} de {{ totalQuestions }} respondidas</strong>
+        </ng-template>
+      </div>
+    </div>
   </div>
-  <p>
-    Seccion actual:
-    <strong>{{ isCompleted ? 'Encuesta completada' : (session.currentSectionTitle || 'Sin seccion activa') }}</strong>
-  </p>
-  <p>
-    Progreso:
-    <ng-container *ngIf="isCompleted; else activeProgress">
-      {{ answeredQuestions }} respondidas de {{ totalQuestions }} (100% completada)
-    </ng-container>
-    <ng-template #activeProgress>
-      {{ answeredQuestions }}/{{ totalQuestions }} ({{ progressPercentage }}%)
-    </ng-template>
-  </p>
+
   <p class="muted" *ngIf="isCompleted && skippedQuestions > 0">
     {{ skippedQuestions }} preguntas fueron omitidas por el flujo configurado.
   </p>

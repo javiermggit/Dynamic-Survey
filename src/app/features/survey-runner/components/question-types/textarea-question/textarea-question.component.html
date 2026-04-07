@@ -1,4 +1,4 @@
-<form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+<form class="form-grid runner-form" [formGroup]="form" (ngSubmit)="submit()">
   <div class="field">
     <label for="textarea-answer">Respuesta</label>
     <textarea
@@ -12,7 +12,7 @@
     </span>
   </div>
 
-  <div class="btn-row">
+  <div class="btn-row runner-form__actions">
     <button class="btn-primary" type="submit" [disabled]="saving">
       {{ saving ? 'Guardando...' : 'Siguiente' }}
     </button>

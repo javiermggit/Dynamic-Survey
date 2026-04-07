@@ -1,5 +1,8 @@
-<article class="question-card" *ngIf="question; else noQuestion">
-  <p class="eyebrow">{{ question.code }}</p>
+<article class="question-card runner-question" *ngIf="question; else noQuestion">
+  <div class="runner-question__header">
+    <p class="eyebrow">{{ question.code }}</p>
+    <span class="status-pill" *ngIf="question.isRequired">Obligatoria</span>
+  </div>
   <h2>{{ question.text }}</h2>
   <p class="muted" *ngIf="question.helpText">{{ question.helpText }}</p>
 
@@ -63,7 +66,7 @@
 </article>
 
 <ng-template #noQuestion>
-  <article class="question-card">
+  <article class="question-card runner-question">
     <p class="muted">No hay una pregunta activa para mostrar en este momento.</p>
   </article>
 </ng-template>

@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+.runner-progress {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.88rem 0.96rem;
+  border-radius: 18px;
+  background: linear-gradient(170deg, rgba(219, 240, 235, 0.12), rgba(255, 255, 255, 1) 44%);
+}
+
+.runner-progress__header {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.runner-progress__title {
+  display: grid;
+  gap: 0.24rem;
+}
+
+.runner-progress__title h3 {
+  font-size: clamp(1.14rem, 1.3vw, 1.34rem);
+  line-height: 1.1;
+}
+
+.runner-progress__meta {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.runner-progress__item {
+  display: grid;
+  gap: 0.22rem;
+  padding: 0.6rem 0.68rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.runner-progress__item span {
+  color: var(--text-soft);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.runner-progress__item strong {
+  color: var(--title);
+  font-size: 1.08rem;
+  line-height: 1.25;
+}

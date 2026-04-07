@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdminSurveySummary } from '../../../admin-surveys/models/admin-survey.models';
-import { AdminSurveyService } from '../../../admin-surveys/services/admin-survey.service';
-import { SurveyDto } from '../../models/survey.models';
+import { SurveyDto, SurveySummaryDto } from '../../models/survey.models';
 import { SurveyRunnerService } from '../../services/survey-runner.service';
 import { SurveySessionStateService } from '../../services/survey-session-state.service';
 
@@ -13,7 +11,7 @@ import { SurveySessionStateService } from '../../services/survey-session-state.s
 })
 export class SurveyRunnerPageComponent implements OnInit {
   survey: SurveyDto | null = null;
-  surveys: AdminSurveySummary[] = [];
+  surveys: SurveySummaryDto[] = [];
   surveyId?: number;
   loading = false;
   starting = false;
@@ -22,12 +20,11 @@ export class SurveyRunnerPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private adminSurveyService: AdminSurveyService,
     private surveyRunnerService: SurveyRunnerService,
     private state: SurveySessionStateService
   ) {}
 
-  getStatusLabel(status: AdminSurveySummary['status']): string {
+  getStatusLabel(status: SurveySummaryDto['status']): string {
     if (status === 'Published') {
       return 'Disponible';
     }
@@ -65,7 +62,7 @@ export class SurveyRunnerPageComponent implements OnInit {
   private loadSurveyList(): void {
     this.loading = true;
 
-    this.adminSurveyService.getSurveys().subscribe({
+    this.surveyRunnerService.getSurveys().subscribe({
       next: surveys => {
         this.surveys = surveys;
         this.loading = false;

@@ -1,13 +1,13 @@
-<div class="option-list">
-  <label class="option-item" *ngFor="let option of question.options">
+<div class="runner-options">
+  <label class="runner-option" *ngFor="let option of question.options">
     <input
       type="checkbox"
       (change)="toggleOption(option.id, $any($event.target).checked)" />
-    <span>{{ option.label }}</span>
+    <span class="runner-option__label">{{ option.label }}</span>
   </label>
 </div>
 
-<div class="btn-row">
+<div class="btn-row runner-form__actions">
   <button class="btn-primary" type="button" (click)="submit()" [disabled]="saving">
     {{ saving ? 'Guardando...' : 'Siguiente' }}
   </button>

@@ -8,9 +8,25 @@
   </div>
 
   <ng-container *ngIf="!loading && state.session as session">
+    <article class="survey-card session-toolbar">
+      <div class="session-toolbar__copy">
+        <p class="eyebrow">Navegacion</p>
+        <h2>Continua o cierra la sesion</h2>
+        <p class="muted">Mantienes el control del recorrido en todo momento.</p>
+      </div>
+
+      <div class="btn-row session-toolbar__actions">
+        <a class="btn-secondary" routerLink="/runner">Volver</a>
+        <button class="btn-secondary" type="button" [disabled]="completing || saving" (click)="onCompleteSession()">
+          {{ completing ? 'Finalizando...' : 'Finalizar' }}
+        </button>
+      </div>
+    </article>
+
     <app-survey-progress
       [survey]="state.survey!"
-      [session]="session">
+      [session]="session"
+      [progress]="progress">
     </app-survey-progress>
 
     <app-survey-complete *ngIf="session.status === 'Completed'"></app-survey-complete>

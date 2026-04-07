@@ -1,7 +1,9 @@
 <form class="builder-card form-grid" [formGroup]="form" (ngSubmit)="submit()">
   <div class="section-workbench__header">
-    <h4>Nueva pregunta</h4>
-    <span class="status-pill">Paso 2</span>
+    <div>
+      <h4>Agregar pregunta</h4>
+      <p class="muted">Describe el enunciado y el tipo de respuesta.</p>
+    </div>
   </div>
 
   <div class="builder-grid builder-grid--two">
@@ -59,6 +61,6 @@
   </div>
 
   <div class="btn-row">
-    <button class="btn-primary" type="submit">Agregar pregunta</button>
+    <button class="btn-primary" type="submit">Crear pregunta</button>
   </div>
 </form>

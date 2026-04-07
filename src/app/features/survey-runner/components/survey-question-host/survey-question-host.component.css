@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.runner-question {
+  display: grid;
+  gap: 0.82rem;
+  padding: 0.96rem 1rem;
+  border-radius: 18px;
+}
+
+.runner-question__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.runner-question h2 {
+  font-size: clamp(1.32rem, 1.48vw, 1.62rem);
+  line-height: 1.15;
+}

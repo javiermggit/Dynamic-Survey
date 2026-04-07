@@ -1,3 +1,42 @@
 :host {
   display: block;
 }
+
+.page-stack {
+  width: min(920px, 100%);
+  margin-inline: auto;
+}
+
+.session-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.84rem 0.94rem;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(219, 240, 235, 0.16), rgba(255, 255, 255, 1) 40%);
+}
+
+.session-toolbar__copy {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.session-toolbar__actions {
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.session-toolbar__copy h2 {
+  font-size: clamp(1.14rem, 1.2vw, 1.32rem);
+}
+
+@media (max-width: 760px) {
+  .session-toolbar {
+    display: grid;
+  }
+
+  .session-toolbar__actions {
+    justify-content: stretch;
+  }
+}

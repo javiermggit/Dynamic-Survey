@@ -36,6 +36,19 @@ export class MockApiInterceptor implements HttpInterceptor {
       return this.respond(mockApiStore.getSurvey(surveyId));
     }
 
+    if (req.method === 'GET' && /^\/api\/admin\/surveys\/\d+$/.test(path)) {
+      const surveyId = this.getLastNumber(path);
+      return this.respond(mockApiStore.getSurvey(surveyId));
+    }
+
+    if (req.method === 'GET' && /^\/api\/admin\/sections\/\d+\/questions$/.test(path)) {
+      return this.respond(mockApiStore.getSectionQuestions(this.getPathNumber(path, 2)));
+    }
+
+    if (req.method === 'GET' && /^\/api\/admin\/questions\/\d+\/options$/.test(path)) {
+      return this.respond(mockApiStore.getQuestionOptions(this.getPathNumber(path, 2)));
+    }
+
     if (req.method === 'POST' && path === '/api/admin/surveys') {
       return this.respond(
         mockApiStore.createSurvey({
@@ -140,6 +153,14 @@ export class MockApiInterceptor implements HttpInterceptor {
 
     if (req.method === 'GET' && /^\/api\/sessions\/\d+$/.test(path)) {
       return this.respond(mockApiStore.getSession(this.getLastNumber(path)));
+    }
+
+    if (req.method === 'GET' && /^\/api\/sessions\/\d+\/progress$/.test(path)) {
+      return this.respond(mockApiStore.getSessionProgress(this.getPathNumber(path, 2)));
+    }
+
+    if (req.method === 'POST' && /^\/api\/sessions\/\d+\/complete$/.test(path)) {
+      return this.respond(mockApiStore.completeSession(this.getPathNumber(path, 2)));
     }
 
     if (req.method === 'POST' && /^\/api\/sessions\/\d+\/answers$/.test(path)) {

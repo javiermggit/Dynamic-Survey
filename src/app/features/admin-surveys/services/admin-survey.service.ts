@@ -28,7 +28,7 @@ export class AdminSurveyService {
 
   getSurvey(id: number): Observable<AdminSurveyDto> {
     return this.http
-      .get<unknown>(`${this.apiUrl}/surveys/${id}`)
+      .get<unknown>(`${this.apiUrl}/admin/surveys/${id}`)
       .pipe(map(response => this.normalizeSurvey(response)));
   }
 
@@ -60,6 +60,18 @@ export class AdminSurveyService {
 
   getSurveyRules(surveyId: number): Observable<unknown[]> {
     return this.http.get<unknown[]>(`${this.apiUrl}/admin/surveys/${surveyId}/rules`);
+  }
+
+  getSectionQuestions(sectionId: number) {
+    return this.http
+      .get<unknown[]>(`${this.apiUrl}/admin/sections/${sectionId}/questions`)
+      .pipe(map(response => response.map(item => this.normalizeQuestion(item))));
+  }
+
+  getQuestionOptions(questionId: number) {
+    return this.http
+      .get<unknown[]>(`${this.apiUrl}/admin/questions/${questionId}/options`)
+      .pipe(map(response => response.map(item => this.normalizeOption(item))));
   }
 
   createRule(surveyId: number, payload: CreateRuleRequest): Observable<void> {
@@ -101,47 +113,51 @@ export class AdminSurveyService {
               : undefined,
             order: Number(sectionData['order'] ?? sectionData['displayOrder'] ?? 0),
             questions: this.deduplicateBy(
-              questions.map(question => {
-                const questionData = question as Record<string, unknown>;
-                const options = Array.isArray(questionData['options'])
-                  ? (questionData['options'] as unknown[])
-                  : [];
-
-                return {
-                  id: Number(questionData['id'] ?? 0),
-                  code: String(questionData['code'] ?? ''),
-                  text: String(questionData['text'] ?? ''),
-                  type: String(questionData['type'] ?? questionData['questionType'] ?? ''),
-                  isRequired: Boolean(questionData['isRequired'] ?? false),
-                  order: Number(questionData['order'] ?? questionData['displayOrder'] ?? 0),
-                  placeholder: questionData['placeholder']
-                    ? String(questionData['placeholder'])
-                    : undefined,
-                  helpText: questionData['helpText']
-                    ? String(questionData['helpText'])
-                    : undefined,
-                  options: this.deduplicateBy(
-                    options.map(option => {
-                      const optionData = option as Record<string, unknown>;
-
-                      return {
-                        id: Number(optionData['id'] ?? 0),
-                        label: String(optionData['label'] ?? ''),
-                        value: String(optionData['value'] ?? ''),
-                        order: Number(optionData['order'] ?? optionData['displayOrder'] ?? 0)
-                      };
-                    }),
-                    option => `${option.label}|${option.value}|${option.order}`
-                  ),
-                  rules: []
-                };
-              }),
+              questions.map(question => this.normalizeQuestion(question)),
               question => `${question.code}|${question.text}|${question.order}|${question.type}`
             )
           };
         }),
         section => `${section.title}|${section.order}`
       )
+    };
+  }
+
+  private normalizeQuestion(item: unknown) {
+    const questionData = (item ?? {}) as Record<string, unknown>;
+    const options = Array.isArray(questionData['options'])
+      ? (questionData['options'] as unknown[])
+      : [];
+
+    return {
+      id: Number(questionData['id'] ?? 0),
+      code: String(questionData['code'] ?? ''),
+      text: String(questionData['text'] ?? ''),
+      type: String(questionData['type'] ?? questionData['questionType'] ?? ''),
+      isRequired: Boolean(questionData['isRequired'] ?? false),
+      order: Number(questionData['order'] ?? questionData['displayOrder'] ?? 0),
+      placeholder: questionData['placeholder']
+        ? String(questionData['placeholder'])
+        : undefined,
+      helpText: questionData['helpText']
+        ? String(questionData['helpText'])
+        : undefined,
+      options: this.deduplicateBy(
+        options.map(option => this.normalizeOption(option)),
+        option => `${option.label}|${option.value}|${option.order}`
+      ),
+      rules: []
+    };
+  }
+
+  private normalizeOption(item: unknown) {
+    const optionData = (item ?? {}) as Record<string, unknown>;
+
+    return {
+      id: Number(optionData['id'] ?? 0),
+      label: String(optionData['label'] ?? ''),
+      value: String(optionData['value'] ?? ''),
+      order: Number(optionData['order'] ?? optionData['displayOrder'] ?? 0)
     };
   }
 
