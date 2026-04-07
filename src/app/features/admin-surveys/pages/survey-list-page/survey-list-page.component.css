@@ -82,16 +82,6 @@
   justify-content: flex-end;
 }
 
-.admin-action-cluster {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem;
-  border: 1px solid rgba(209, 219, 231, 0.9);
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 254, 0.96));
-}
-
 .admin-list-row__actions .btn-primary {
   min-width: 142px;
   box-shadow: none;

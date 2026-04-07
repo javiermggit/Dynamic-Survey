@@ -1,4 +1,4 @@
-<section class="page-stack">
+<section class="page-stack designer-shell">
   <div class="admin-page" *ngIf="loading">
     <p>Cargando editor...</p>
   </div>
@@ -15,7 +15,7 @@
         </p>
       </div>
 
-      <div class="screen-header__actions inline-metrics">
+      <div class="screen-header__actions inline-metrics designer-header__meta">
         <span>{{ survey.sections.length }} secciones</span>
         <span>{{ totalQuestions }} preguntas</span>
       </div>
@@ -23,7 +23,7 @@
 
     <div class="designer-layout">
       <aside class="designer-sidebar">
-        <article class="designer-sidebar__panel">
+        <article class="designer-sidebar__panel designer-sidebar__panel--nav">
           <div class="designer-sidebar__heading">
             <h3>Secciones</h3>
             <p class="muted">Elige una seccion y el panel central cambia contigo.</p>
@@ -36,18 +36,21 @@
               *ngFor="let section of survey.sections"
               [class.active]="section.id === activeSection?.id"
               (click)="selectSection(section.id)">
-              <div>
+              <span class="designer-nav__kicker">0{{ section.order }}</span>
+              <div class="designer-nav__content">
                 <strong>{{ section.title }}</strong>
-                <span>{{ section.questions.length }} preguntas</span>
+                <span class="designer-nav__meta">{{ section.questions.length }} preguntas</span>
               </div>
             </button>
           </article>
         </article>
 
-        <app-section-builder
-          [surveyId]="survey.id"
-          (created)="onSectionCreated()">
-        </app-section-builder>
+        <div class="designer-sidebar__composer">
+          <app-section-builder
+            [surveyId]="survey.id"
+            (created)="onSectionCreated()">
+          </app-section-builder>
+        </div>
 
         <ng-template #emptyState>
           <article class="designer-empty">
@@ -57,11 +60,12 @@
       </aside>
 
       <section class="designer-main" *ngIf="activeSection as section">
-        <article class="section-panel">
+        <article class="section-panel designer-stage">
           <div class="section-workbench__header">
-            <div>
+            <div class="designer-stage__title">
               <p class="eyebrow">Seccion {{ section.order }}</p>
               <h2>{{ section.title }}</h2>
+              <p class="muted">Construye el flujo base de esta seccion antes de afinar reglas y ramificaciones.</p>
             </div>
             <span class="status-pill">{{ section.questions.length }} preguntas</span>
           </div>
@@ -72,7 +76,7 @@
           </app-question-builder>
         </article>
 
-        <article class="designer-nav designer-nav--questions" *ngIf="section.questions.length; else noQuestions">
+        <article class="designer-nav designer-nav--questions designer-question-rail" *ngIf="section.questions.length; else noQuestions">
           <div class="designer-sidebar__heading">
             <h3>Preguntas</h3>
             <p class="muted">Escoge una pregunta para editar respuestas y reglas sin abrir todo a la vez.</p>
@@ -84,9 +88,10 @@
             *ngFor="let question of section.questions"
             [class.active]="question.id === activeQuestion?.id"
             (click)="selectQuestion(question.id)">
-            <div>
-              <strong>{{ question.code }} - {{ question.text }}</strong>
-              <span>{{ getQuestionTypeLabel(question.type) }}</span>
+            <span class="designer-nav__kicker">{{ question.code }}</span>
+            <div class="designer-nav__content">
+              <strong>{{ question.text }}</strong>
+              <span class="designer-nav__meta">{{ getQuestionTypeLabel(question.type) }}</span>
             </div>
           </button>
         </article>
@@ -97,11 +102,12 @@
           </article>
         </ng-template>
 
-        <article class="question-panel" *ngIf="activeQuestion as question">
+        <article class="question-panel designer-detail" *ngIf="activeQuestion as question">
           <div class="question-workbench__header">
-            <div>
+            <div class="designer-detail__title">
               <p class="eyebrow">{{ question.code }}</p>
               <h3>{{ question.text }}</h3>
+              <p class="muted">Ajusta opciones y reglas con el contexto de navegacion visible a la izquierda.</p>
             </div>
             <div class="tag-row">
               <span class="status-pill">{{ getQuestionTypeLabel(question.type) }}</span>

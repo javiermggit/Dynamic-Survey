@@ -102,12 +102,6 @@
   padding-left: 0.4rem;
 }
 
-.runner-list-row__actions .btn-primary {
-  min-width: 176px;
-  border-radius: 14px;
-  box-shadow: 0 10px 20px rgba(11, 100, 94, 0.26);
-}
-
 @media (max-width: 720px) {
   .runner-list-row {
     max-width: none;

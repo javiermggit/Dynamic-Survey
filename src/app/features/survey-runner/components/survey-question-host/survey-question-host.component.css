@@ -6,7 +6,12 @@
   display: grid;
   gap: 0.82rem;
   padding: 0.96rem 1rem;
-  border-radius: 18px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 90% 14%, rgba(15, 118, 110, 0.08), rgba(15, 118, 110, 0) 26%),
+    linear-gradient(180deg, #ffffff, #fbfdff);
+  overflow: hidden;
+  position: relative;
 }
 
 .runner-question__header {
@@ -16,7 +21,16 @@
   gap: 0.75rem;
 }
 
+.runner-question::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: linear-gradient(180deg, rgba(15, 118, 110, 0.6), rgba(15, 118, 110, 0.12));
+}
+
 .runner-question h2 {
   font-size: clamp(1.32rem, 1.48vw, 1.62rem);
   line-height: 1.15;
+  max-width: 18ch;
 }
